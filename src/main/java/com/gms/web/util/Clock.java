@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Clock {
 	public String getNow(){
-		return new SimpleDateFormat("yyyy?…„MM?›”dd?¼ a hh:mm:ss").format(new Date());
+		return new SimpleDateFormat("yyyy?ë…„ MM?ì›” dd?ì¼ a hh:mm:ss").format(new Date());
 	} 
 
 }
