@@ -5,7 +5,6 @@ var app=app || {};
 
 app.path=(function(){
 	var init=function(ctx){
-		alert('CTX ??'+ctx);
 		app.session.init(ctx);
 		onCreate();
 	};

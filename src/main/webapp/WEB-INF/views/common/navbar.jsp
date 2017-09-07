@@ -46,7 +46,7 @@
   </div>
 </nav>
 <script>
-	navbar.init();
+app.navbar.init();
 </script>
 
 

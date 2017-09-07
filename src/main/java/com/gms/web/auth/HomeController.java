@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gms.web.complex.PathFactory;
+
 @Controller
 public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -24,7 +26,7 @@ public class HomeController {
 				"serverTime", 
 				new SimpleDateFormat("yyyy년 MM월 dd일")
 				.format(new Date()));
-		session.setAttribute("ctx", "");
+		session.setAttribute("path", PathFactory.create());
 		return "public:common/home.tiles";
 	}
 	
