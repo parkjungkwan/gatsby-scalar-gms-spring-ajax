@@ -202,6 +202,11 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>${mybatis-spring-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
