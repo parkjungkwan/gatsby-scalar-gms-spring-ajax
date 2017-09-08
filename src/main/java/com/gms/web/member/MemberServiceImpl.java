@@ -42,7 +42,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public String count(CommandDTO cmd) {
+	public String count() {
 		System.out.println("카운?�� ..");
 		return null;
 	}

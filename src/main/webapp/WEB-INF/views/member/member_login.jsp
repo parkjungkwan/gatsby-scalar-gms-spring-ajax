@@ -11,4 +11,3 @@
 		<button id="cancel_btn" onclick="window.location.href='../index.jsp'">CANCEL</button>
 	</div>
 </div>
-<%@ include file="../common/footer.jsp" %>

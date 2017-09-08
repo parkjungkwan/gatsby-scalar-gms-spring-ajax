@@ -14,7 +14,7 @@ public interface MemberMapper {
 	public List<?> selectAll(CommandDTO cmd);
 	public List<?> selectByName(CommandDTO cmd);
 	public StudentDTO selectById(CommandDTO cmd);
-	public String count(CommandDTO cmd);
+	public String count();
 	public String update(MemberDTO bean);
 	public String delete(CommandDTO cmd);
 	public MemberDTO login(CommandDTO cmd);

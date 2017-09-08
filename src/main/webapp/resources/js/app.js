@@ -57,16 +57,42 @@ app.main=(function(){
 	var onCreate=function(){
 		setContentView();
 		$('.list-group li').eq(0).on('click',function(){
-			controller.moveTo('member','member_add');
+			alert('추가');
+			app.controller.moveTo('member','member_add');
 		});
 		$('.list-group li').eq(1).on('click',function(){
-			controller.list('member','member_list','1');
+			alert('리스트');
+			app.controller.moveTo('member','member_list');
 		});
 		$('.list-group li').eq(2).on('click',function(){
-			controller.detailStudent(prompt('조회 ID'));
+			app.controller.moveTo('member','member_detail');
 		});
 		$('.list-group li').eq(3).on('click',function(){
-			controller.moveTo('member','member_add');
+			app.controller.deleteTarget('hong','member','member_delete');
+		});
+		$('.list-group li').eq(4).on('click',function(){
+			app.controller.moveTo('grade','grade_add');
+		});
+		$('.list-group li').eq(5).on('click',function(){
+			app.controller.moveTo('grade','grade_list');
+		});
+		$('.list-group li').eq(6).on('click',function(){
+			app.controller.moveTo('grade','grade_detail');
+		});
+		$('.list-group li').eq(7).on('click',function(){
+			app.controller.deleteTarget('hong','grade','grade_delete');
+		});
+		$('.list-group li').eq(8).on('click',function(){
+			app.controller.moveTo('board','board_write');
+		});
+		$('.list-group li').eq(9).on('click',function(){
+			app.controller.moveTo('board','board_list');
+		});
+		$('.list-group li').eq(10).on('click',function(){
+			app.controller.moveTo('board','board_detail');
+		});
+		$('.list-group li').eq(11).on('click',function(){
+			app.controller.deleteTarget('hong','board','board_delete');
 		});
 	};
 	var setContentView=function(){
@@ -113,10 +139,41 @@ app.navbar=(function(){
 	};
 	var onCreate=function(){
 		setContentView();
-		$('.dropdown-menu a').eq( 0 ).on('click',function(){
-			controller.moveTo('member','member_add');
+		$('.dropdown-menu a').eq(0).on('click',function(){
+			app.controller.moveTo('member','member_add');
 		});
-		$('.dropdown-menu a').eq( 1 ).on('click',function(){
+		$('.dropdown-menu a').eq(1).on('click',function(){
+			app.controller.moveTo('member','member_list');
+		});
+		$('.dropdown-menu a').eq(2).on('click',function(){
+			app.controller.moveTo('member','member_detail');
+		});
+		$('.dropdown-menu a').eq(3).on('click',function(){
+			app.controller.deleteTarget('hong','member','member_delete');
+		});
+		$('.dropdown-menu a').eq(4).on('click',function(){
+			app.controller.moveTo('grade','grade_add');
+		});
+		$('.dropdown-menu a').eq(5).on('click',function(){
+			app.controller.moveTo('hong','grade','grade_list');
+		});
+		$('.dropdown-menu a').eq(6).on('click',function(){
+			app.controller.moveTo('grade','grade_detail');
+		});
+		$('.dropdown-menu a').eq(7).on('click',function(){
+			app.controller.deleteTarget('hong','grade','grade_delete');
+		});
+		$('.dropdown-menu a').eq(8).on('click',function(){
+			app.controller.moveTo('board','board_write');
+		});
+		$('.dropdown-menu a').eq(9).on('click',function(){
+			app.controller.moveTo('board','board_list');
+		});
+		$('.dropdown-menu a').eq(10).on('click',function(){
+			app.controller.moveTo('board','board_detail');
+		});
+		$('.dropdown-menu a').eq(11).on('click',function(){
+			app.controller.deleteTarget('hong','board','board_delete');
 		});
 	};
 	var setContentView=function(){
@@ -180,14 +237,16 @@ app.controller=(function(){
 	};
 	var moveTo=function(dir,page){
 		location.href=
-			app.ctx()+'/'+dir+".do?action=move&page="+page;
+			app.path.ctx()+"/"+dir+"/"+page;
 	};
 	var logout=function (dir,page){
 		location.href="${ctx}/"+dir+".do?action=logout&page="+page;
 	};
 	
-	var deleteTarget=function (target){
+	var deleteTarget=function (target,dir,page){
 		prompt(target+'의 ID?');
+		location.href=
+			app.path.ctx()+'/'+dir+"/"+page;
 	};
 	var list=function (dir,page,pageNumber){
 		location.href=app.ctx()+"/"+dir+".do?action=list&page="+page
