@@ -26,7 +26,7 @@ public class HomeController {
 				new SimpleDateFormat("yyyy년 MM월 dd일")
 				.format(new Date()));
 		model.addAttribute("path", PathFactory.create());
-		return "public:common/home.tiles";
+		return "index";
 	}
 	
 }
