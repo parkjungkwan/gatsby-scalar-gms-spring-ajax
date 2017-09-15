@@ -9,21 +9,7 @@ import com.gms.web.grade.GradeController;
 @RequestMapping("/board")
 public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-	@RequestMapping("/board_write")
-	public String boardAdd() {
-		logger.info("board Controller{} ","진입");
-		return "auth:board/board_write.tiles";
-	}
-	@RequestMapping("/board_list")
-	public String boardList() {
-		logger.info("board ContList{} ","진입");
-		return "auth:board/board_list.tiles";
-	}
-	@RequestMapping("/board_detail")
-	public String boardDetail() {
-		logger.info("board ContList{} ","진입");
-		return "auth:board/board_detail.tiles";
-	}
+	
 	@RequestMapping("/board_delete")
 	public String boardDelete() {
 		logger.info("board ContList{} ","진입");

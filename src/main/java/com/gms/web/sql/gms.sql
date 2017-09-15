@@ -348,7 +348,7 @@ select
 	CONCAT(a.regdate,'yyyy-MM-dd') regdate,
 	a.phone phone,
 	a.email email,
-	group_concat(s.title,',') subjects
+	group_concat(s.title) subjects
     from member a
         left  join 
         	major m 

@@ -33,7 +33,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="C:/Users/1027/SpringProjects/lombok.jar"/>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>

@@ -9,21 +9,7 @@ import com.gms.web.member.MemberController;
 @RequestMapping("/grade")
 public class GradeController {
 	private static final Logger logger = LoggerFactory.getLogger(GradeController.class);
-	@RequestMapping("/grade_add")
-	public String gradeAdd() {
-		logger.info("gradeADD{}","진입");
-		return "auth:grade/grade_add.tiles";
-	}
-	@RequestMapping("/grade_list")
-	public String gradeList() {
-		logger.info("gradeADD{}","진입");
-		return "auth:grade/grade_list.tiles";
-	}
-	@RequestMapping("/grade_detail")
-	public String gradeDetail() {
-		logger.info("gradeDetail{}","진입");
-		return "auth:grade/grade_detail.tiles";
-	}
+	
 	@RequestMapping("/grade_delete")
 	public String gradeDelete() {
 		logger.info("gradeDelete{}","진입");
