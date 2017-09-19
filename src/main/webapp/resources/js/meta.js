@@ -12,61 +12,50 @@ meta.common=(function(){
 	return { init:init };
 })();
 meta.index=(function(){
-	var $wrapper,$navbar,$container,ctx,img,js,css;
+	var $wrapper,$navbar,$container,ctx,img,js,css,
+		temp,algo;
 	var init=function(){
-		alert('meta - index - init !!');
-		onCreate();
-			/*$wrapper=$('#wrapper');
-			$navbar=$('#navbar');
-			$container=$('#container');
-			img=$$('i');
+			js=$$('j');
+			temp=js+'/template.js';
+			algo=js+'/algo.js';
 			onCreate();
-			meta.ui.init();*/
 		};
 	var onCreate=function(){
-			setContentView();
-			$('#btn').on('click',function(){
+		$container=$('#container');
+		img=$$('i');
+		$.getScript(temp,x=>{
+			var $image = $('<img/>',
+				intro.loading(img)	
+			);
+			$container.append($image);
+			var $btn=$('<input/>',
+					{
+						id : 'btn',
+						type : 'button',
+						value : '버튼'
+					});
+			$('#loading').after($btn);
+			$('#btn').click(()=>{
 				$container.empty();
 				//meta.auth.init();	
 				meta.ui.navbar();
 				meta.navbar.init();
 				meta.ui.arithmetic();
-			});
-		};
-	var setContentView=function(){
-		$container=$('#container');
-		img=$$('i');
-		var $image = $('<img/>',
-			{	
-				id : 'loading',
-				src : img+'/loading.gif'
-			}
-		);
-		$container.append($image);
-		var $btn=$('<input/>',
-				{
-					id : 'btn',
-					type : 'button',
-					value : '버튼4'
+				$('#resultBtn').click(()=>{
+					$.getScript(algo,(x1,x2)=>{
+						$('#result').text('결과 : '
+								+series.arithmetic(
+										$('#start').val(),
+										$('#end').val()
+								));
+					});
 				});
-		$container.append($btn);
-	};
+			});
+		});
+		};
 	return {init:init};
 })();
-meta.algo={
-	arithmetic : function(s,e){
-		var sum=0;
-		var start=s*1;
-		var end=e*1;
-		for(var i=start;i<=end;i++){
-			sum+=i;
-		}
-		return sum;
-	},
-	switchSeries : function(){
-		
-	}
-};
+
 meta.auth=(function(){
 	var $wrapper,ctx,img,js,css;
 	var init=function(){
@@ -113,8 +102,12 @@ meta.auth=(function(){
 	};
 })();
 meta.navbar=(function(){
+	var algo,js;
 	var init=function(){
 		onCreate();
+		js=$$('j');
+		algo=js+'/algo.js';
+		
 	};
 	var onCreate=function(){
 		setContentView();
@@ -155,32 +148,43 @@ meta.navbar=(function(){
 			app.controller.deleteTarget('hong','board','board_delete');
 		});
 		$('#arithBtn').on('click',function(){
-			alert('등차수열 클릭');
 			$('#container').empty();
 			meta.ui.arithmetic();
-			$('#resultBtn').on('click',function(){
-				$('#result').text('결과 : '
-						+meta.algo.arithmetic(
-								$('#start').val(),
-								$('#end').val()
-						));
-				;
+			$('#resultBtn').click(()=>{
+				$.getScript(algo,(x1,x2)=>{
+					$('#result').text('결과 : '+
+							series.arithmetic(
+									$('#start').val(),
+									$('#end').val()
+							));
+				});
 			});
 		});
-		$('#switchBtn').on('click',function(){
-			alert('스위치 클릭');
+		$('#switchBtn').click(()=>{
+			$('#container').empty();
+			meta.ui.arithmetic();
+			$('h1').html('스위치수열의 합');
+			$('#start').val('1').attr('readonly','true');
+			$('#end').val('100').attr('readonly','true');
+			$('#resultBtn').click(()=>{
+				$.getScript(algo,()=>{
+					$('#result').text('결과값'+series.switchSeries());
+				});
+			})
+		});
+		$('#diffBtn').click(()=>{
+			alert('계차 수열 클릭');
 			$('#container').empty();
 		});
-		$('#geoBtn').on('click',function(){
-			alert('등비수열 클릭');
-			$('#container').empty();
-		});
-		$('#facBtn').on('click',function(){
+		$('#facBtn').click(()=>{
 			alert('팩토리얼 클릭');
 			$('#container').empty();
 		});
-		$('#fiboBtn').on('click',function(){
+		$('#fiboBtn').click(()=>{
 			alert('피보나치 클릭');
+			$.getScript(algo,()=>{
+				series.fibonacci('헬로우 피보');
+			});
 			$('#container').empty();
 		});
 		
@@ -264,7 +268,6 @@ meta.ui=(function(){
 		+'  </div>'
 		+'</nav>');
 	}
-	
 	var arithmetic=function(){
 		/*1부터 100까지 등차수열의 합*/
 		var content = '<div id="content">'
@@ -297,11 +300,7 @@ meta.ui=(function(){
 		));
 	};
 	var switchSeries = function(){
-		var ui = '<div id="ui">'
-			+'<h1>시작값부터 끝값까지 스위치수열의 합</h1>'
-			+'<span id="start_txt">시작값: &nbsp;&nbsp;</span>'
-			+'<br/><span id="end_txt">끝   값:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br/>'
-			+'<div id="result"></div>';
+		
 	};
 	return {
 		init : init,
@@ -318,15 +317,15 @@ meta.comp=
 
 meta.session=
 	{
-	init : function(x){
+	   init : (x)=>{
 				sessionStorage.setItem('x',x);
 				sessionStorage.setItem('j',x+'/resources/js');
 				sessionStorage.setItem('c',x+'/resources/css');
 				sessionStorage.setItem('i',x+'/resources/img');
-		   },
-	getPath : function(x){
+	   		  },
+	   getPath : (x)=>{
 				return sessionStorage.getItem(x);
-		   }
+	   		  }
 	};
 var $$= function(x){return meta.session.getPath(x);};
 			
