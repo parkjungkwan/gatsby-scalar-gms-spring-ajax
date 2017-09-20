@@ -1,20 +1,20 @@
 var meta=meta || {};
-meta.common=(function(){
-	var init=function(ctx){
+meta.common=(()=>{
+	var init=(ctx)=>{
 		onCreate();
 		meta.session.init(ctx);
 		meta.index.init();
 	};
-	var onCreate=function(){
+	var onCreate=()=>{
 		setContentView();
 	};
-	var setContentView=function(){};
+	var setContentView=()=>{};
 	return { init:init };
 })();
-meta.index=(function(){
+meta.index=(()=>{
 	var $wrapper,$navbar,$container,ctx,img,js,css,
 		temp,algo;
-	var init=function(){
+	var init=()=>{
 			js=$$('j');
 			temp=js+'/template.js';
 			algo=js+'/algo.js';
@@ -23,31 +23,41 @@ meta.index=(function(){
 			img=$$('i');
 			onCreate();
 		};
-	var onCreate=function(){
+	var onCreate=()=>{
 		$.getScript(temp,(x,y)=>{
-			$container.append(compUI.image('loading',img+'/loading.gif'));
-			$('#loading').after(compUI.input('btn','button'));
-			$('#btn').val('버튼');
-			$('#btn').click(()=>{
+			$container.append(compUI.div('content'))
+				.css({'width':'100%'});
+			$('#content')
+				.css({'width':'40%','margin':'0 auto'})
+				.append(compUI.image('loading',img+'/loading.gif'));
+			$('#loading').after(compUI.h1('h-btn'));
+			$('#h-btn').append(compUI.span('btn1'))
+				.attr('display','inline');
+			$('#btn1').html('알고리즘')
+				.addClass('label label-default');
+			$('#h-btn').append(compUI.span('btn2'))
+			.attr('display','inline');
+			$('#btn2').html('회원 관리')
+			.addClass('label label-primary')
+			.css({'margin-left':'10px'});
+			$('#h-btn').append(compUI.span('btn3'))
+			.attr('display','inline');
+			$('#btn3').html('게시판 관리')
+			.addClass('label label-danger')
+			.css({'margin-left':'10px'});
+			$('#btn1').click(()=>{
 				$container.empty();
-				//meta.auth.init();	
 				meta.navbar.init();
 				$container.html(algoUI.series());
-				$('#start_txt').after(compUI.input('start','text'));
-				$('#start').attr('placeholder','시작값');
-				$('#end_txt').after(compUI.input('end','text'));
-				$('#end').attr('placeholder','끝값');
-				$('#result').before(compUI.input('resultBtn','button'));
-				$('#resultBtn').val('결과보기');
-				$('#resultBtn').click(()=>{
-					$.getScript(algo,(x,y)=>{
-						$('#result').text('결과 : '
-								+series.arithmetic(
-										$('#start').val(),
-										$('#end').val()
-						));
-					});
-				});
+			});
+			$('#btn2').click(()=>{
+				//$container.empty();
+				//meta.auth.init();	
+				
+			});
+			$('#btn3').click(()=>{
+				//$container.empty();
+				//meta.auth.init();	
 			});
 		});
 		};
@@ -97,26 +107,22 @@ meta.navbar=(function(){
 		algo=js+'/algo.js';
 		temp=js+'/template.js';
 		onCreate();
-		
-		/*algo=js+'/algo.js';*/
-		
 	};
 	var onCreate=function(){
 		$.getScript(temp,function(){
-			var $u1=$("#navbar_ul_stu");
-			var $u2=$("#navbar_ul_grade");
-			var $u3=$("#navbar_ul_board");
-			$u1.addClass("dropdown-menu");
-			$u2.addClass("dropdown-menu");
-			$u3.addClass("dropdown-menu");
 			$('#navbar').html(introUI.navbar());
-			$('#container').html(algoUI.series());
-			$('#start_txt').after(compUI.input('start','text'));
+			$('#container').append(compUI.div('content'));
+			$('#content').html(algoUI.series('등차수열'))
+			.css({'width':'40%','margin':'0 auto'});
+			$('#start_txt').after(compUI.iTxt('start'));
 			$('#start').attr('placeholder','시작값');
-			$('#end_txt').after(compUI.input('end','text'));
+			$('#end_txt').after(compUI.iTxt('end'));
 			$('#end').attr('placeholder','끝값');
-			$('#result').before(compUI.input('resultBtn','button'));
-			$('#resultBtn').val('결과보기');
+			$('#result').before(compUI.iBtn('resultBtn'));
+			$('#resultBtn')
+				.val('결과보기')
+				.addClass('');
+			
 			$('#resultBtn').click(()=>{
 				$.getScript(algo,(x1,x2)=>{
 					$('#result').text('결과 : '+
@@ -127,6 +133,7 @@ meta.navbar=(function(){
 				});
 			});
 			$('.dropdown-menu a').eq(0).on('click',function(){
+				alert('aaa');
 				//app.controller.moveTo('member','member_add');
 			});
 			$('.dropdown-menu a').eq(1).on('click',function(){
@@ -163,14 +170,33 @@ meta.navbar=(function(){
 				//app.controller.deleteTarget('hong','board','board_delete');
 			});
 			$('#arithBtn').on('click',function(){
-				$container.html(algoUI.series());
-				$('#start_txt').after(compUI.input('start','text'));
+				alert('33');
+				$container.empty();
+				$container.append(algoUI.tbl());
+				
+	            var $tblRight=$('#tblRight'),
+	              $tblLeft=$('#tblLeft');
+	            $tblLeft.html(algoUI.seriesMenu()); 
+	            $cnt=compUI.div('content');
+	    		$cnt.append(compUI.h1('등차수열'))
+	    			.append(compUI.span('start_txt'))
+	    			.append(compUI.br())
+	    			.append(compUI.span('end_txt'))
+	    			.append(compUI.div('result'))
+	    		;
+	            $tblRight.html(
+	            		'<div id="content">'
+	            		+'<h1>'
+	            		+'test</h1>'
+	            		+'</div>'
+	            		
+	            );
+				/*$('#start_txt').after(compUI.input('start','text'));
 				$('#start').attr('placeholder','시작값');
-				$('#end_txt').after(compUI.input('end','text'));
+				$('#end_txt').after(compUI.iTxt('end'));
 				$('#end').attr('placeholder','끝값');
-				$('#result').before(compUI.input('resultBtn','button'));
-				$('#resultBtn').val('결과보기');
-				$('h1').html('등차수열의 합');
+				$('#result').before(compUI.iTxt('resultBtn'));
+				$('#resultBtn').val('결과보기');*/
 				$('#resultBtn').click(()=>{
 					$.getScript(algo,(x1,x2)=>{
 						$('#result').text('결과 : '+
@@ -182,12 +208,13 @@ meta.navbar=(function(){
 				});
 			});
 			$('#switchBtn').click(()=>{
+				
 				$container.html(algoUI.series());
 				$('#start_txt').after(compUI.input('start','text'));
 				$('#start').attr('placeholder','시작값');
 				$('#end_txt').after(compUI.input('end','text'));
 				$('#end').attr('placeholder','끝값');
-				$('#result').before(compUI.input('resultBtn','button'));
+				$('#result').before(compUI.aBtn('resultBtn'));
 				$('#resultBtn').val('결과보기');
 				$('h1').html('스위치수열의 합');
 				$('#start').val('1').attr('readonly','true');
@@ -197,6 +224,81 @@ meta.navbar=(function(){
 						$('#result').text('결과값'+series.switchSeries());
 					});
 				})
+			});
+			$('#selBtn').click(()=>{
+				$container.empty();
+				$container.append(compUI.div('content'))
+				.css({'width':'100%'});
+				$('#content')
+				.css({'width':'40%','margin':'0 auto'});
+				
+				$('#content').html(
+						'<div id="sort-div">'
+						+'<h1 id="title">선택정렬</h1>'
+						+'<input type="text" id="sortVal" placeholder="양의 정수만 입력가능"/>'
+						+'<input type="button" id="sortBtn" value="값 입력" placeholder="입 력"/>'
+				);
+				var sortList= new Array(5);
+				var i=0;
+				$('#sortBtn').click((x)=>{
+					sortList[i]=$('#sortVal').val();
+					$('#sortVal').val('');
+					i++;
+					if(i==5){
+						$('#sortVal').remove();
+						$('#sortBtn').val('결과보기');
+						$('#sortBtn').after(compUI.h1('result'));
+						$('#sortBtn').click(()=>{
+							console.log('선택정렬');
+							$.getScript(algo,x=>{
+								$('#result').text(sort.selection(
+										sortList
+								));
+							});
+							i=0;
+						});
+						
+						
+					}
+				});
+			});
+			$('#bubbleBtn').click(()=>{
+				alert('bubble');
+				$container.empty();
+				$container.append(compUI.div('content'))
+				.css({'width':'100%'});
+				$('#content')
+				.css({'width':'40%','margin':'0 auto'});
+				
+				$('#content').html(
+						'<div id="sort-div">'
+						+'<h1 id="title">버블정렬</h1>'
+						+'<input type="text" id="sortVal" placeholder="양의 정수만 입력가능"/>'
+						+'<input type="button" id="sortBtn" value="값 입력" placeholder="입 력"/>'
+				);
+				var sortList= new Array(5);
+				var i=0;
+				$('#sortBtn').click((x)=>{
+					sortList[i]=$('#sortVal').val();
+					$('#sortVal').val('');
+					i++;
+					if(i==5){
+						$('#sortVal').remove();
+						$('#sortBtn').val('결과보기');
+						$('#sortBtn').after(compUI.h1('result'));
+						$('#sortBtn').click(()=>{
+							console.log('버블정렬');
+							$.getScript(algo,x=>{
+								$('#result').text(sort.bubble(
+										sortList
+								));
+							});
+							i=0;
+						});
+						
+						
+					}
+				});
 			});
 			
 			

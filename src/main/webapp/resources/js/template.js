@@ -57,9 +57,38 @@ var introUI={
 		+'          <ul id="navbar_ul_board" class="dropdown-menu">'
 		+'           <li><a id="arithBtn">등차수열</a></li>'
 		+'            <li><a id="switchBtn">스위치수열</a></li>'
-		+'            <li><a id="geoBtn">등비수열</a></li>'
+		+'            <li><a id="diffBtn">등비수열</a></li>'
 		+'            <li><a id="facBtn">팩토리얼</a></li>'
 		+'            <li><a id="fiboBtn">피보나치</a></li>'
+		+'          </ul>'
+		+'        </li>'
+		+'     <li class="dropdown">'
+		+'          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">배 열 <span class="caret"></span></a>'
+		+'          <ul id="navbar_ul_board" class="dropdown-menu">'
+		+'           <li><a id="selBtn">선택정렬</a></li>'
+		+'            <li><a id="bubbleBtn">버블정렬</a></li>'
+		+'            <li><a id="insertBtn">삽입정렬</a></li>'
+		+'            <li><a id="rankBtn">석차구하기</a></li>'
+		+'            <li><a id="binSearchBtn">이분검색</a></li>'
+		+'            <li><a id="mergeBtn">병합</a></li>'
+		+'            <li><a id="stackBtn">스택</a></li>'
+		+'          </ul>'
+		+'        </li>'
+		+'     <li class="dropdown">'
+		+'          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">행 열 <span class="caret"></span></a>'
+		+'          <ul id="navbar_ul_board" class="dropdown-menu">'
+		+'           <li><a id="selBtn">기본 5행 5열</a></li>'
+		+'            <li><a id="bubbleBtn">직각삼각형</a></li>'
+		+'            <li><a id="insertBtn">지그재그</a></li>'
+		+'            <li><a id="rankBtn">다이아몬드</a></li>'
+		+'            <li><a id="binSearchBtn">모래시계</a></li>'
+		+'            <li><a id="mergeBtn">오른쪽 빈삼각형</a></li>'
+		+'            <li><a id="stackBtn">이등변삼각형</a></li>'
+		+'            <li><a id="stackBtn">90도 회전</a></li>'
+		+'            <li><a id="stackBtn">달팽이</a></li>'
+		+'            <li><a id="stackBtn">대각선채우기</a></li>'
+		+'            <li><a id="stackBtn">마방진</a></li>'
+		+'            <li><a id="stackBtn">행렬변환</a></li>'
 		+'          </ul>'
 		+'        </li>'
 		+'    </ul>'
@@ -70,27 +99,47 @@ var introUI={
 	}
 };
 var compUI={
-	image : (x,y)=>{
-			return $('<img/>',
-			{	
-				id : x,
-				src : y
-			}); 
-		},
-	input : (x,y)=>{
-		return $('<input/>',
-		{
-			id : x,
-			type : y
-		});
-	}
+	br : ()=>{return $('<br/>')},	
+	div : x=>{return $('<div/>',{id:x});},
+	h1 : x=>{return $('<h1/>',{id:x});},
+	span : x=>{return $('<span/>',{id:x});},
+	iTxt : x=>{return $('<input/>',{id : x,type : 'text'});},
+	aBtn : s=>{return $('<a>',{href:'#',role:'button',id:x});},
+	iBtn : x=>{return $('<input/>',{id : x,type : 'button'});},
+	image : (x,y)=>{return $('<img/>',{id : x,src : y});}
 }
 var algoUI={
-	series : ()=>{
-		return '<div id="content">'
-			+'<h1>시작값부터 끝값까지 등차수열의 합</h1>'
-			+'<span id="start_txt">시작값: &nbsp;&nbsp;</span>'
-			+'<br/><span id="end_txt">끝   값:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br/>'
-			+'<div id="result"></div>';
-	}	
+	tbl : x=>{
+		return '<table id="table" style="width:800px;height:300px;border-collapse: collapse;border: 1px solid black;margin:0 auto">'
+	     +    '<tr style="border: 1px solid black;">'
+	     +         '<td id="tblLeft" style="width: 50%;border: 1px solid black;"></td>'
+	     +         '<td id="tblRight" style="width: 50%;border: 1px solid black;"></td>'
+	     +    '</tr>'
+	     +'</table>';
+	},
+	seriesMenu : ()=>{return '<ul class="list-group">'
+		+	'<li id="aSeries" class="list-group-item"><a href="#">등차수열 합</a></li>'
+		+	'<li id="swSeries" class="list-group-item"><a href="#">스위치수열 합</a></li>'
+		+	'<li id="dSeries" class="list-group-item"><a href="#">계차수열 합</a></li>'
+		+	'<li id="factorial" class="list-group-item"><a href="#">팩토리얼수열 합</a></li>'
+		+	'<li id="fibonacci" class="list-group-item"><a href="#">피보나치수열 합</a></li>'
+		+'</ul>'},
+	series : x=>{
+		var $cnt=compUI.div('content');
+		$cnt.append(compUI.h1(x))
+			.append(compUI.span('start_txt'))
+			.append(compUI.br())
+			.append(compUI.span('end_txt'))
+			.append(compUI.div('result'))
+		;
+		return $('#content');
+	}	,
+	sort : x=>{
+		return 
+		'<div id="content">'
+		+'<h1 id="title">'+x+'</h1>'
+		+'<input type="text" id="sortVal" placeholder="양의 정수만 입력가능"/>'
+		+'<input type="button" id="sortBtn" value="값 입력" placeholder="입 력"/>'
+			;
+	}
 };
