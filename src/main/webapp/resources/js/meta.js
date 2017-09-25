@@ -13,7 +13,7 @@ meta.common=(()=>{
 })();
 meta.index=(()=>{
 	var $wrapper,$navbar,$container,ctx,img,js,css,
-		temp,algo;
+		temp,algo,json;
 	var init=()=>{
 			js=$$('j');
 			temp=js+'/template.js';
@@ -21,49 +21,177 @@ meta.index=(()=>{
 			$navbar=$('#navbar');
 			$container=$('#container');
 			img=$$('i');
+			ctx=$$('x');
+			json=$$('x')+'/resources/json';
 			onCreate();
 		};
 	var onCreate=()=>{
-		$.getScript(temp,(x,y)=>{
-			$container.append(compUI.div('content'))
-				.css({'width':'100%'});
-			$('#content')
-				.css({'width':'40%','margin':'0 auto'})
-				.append(compUI.image('loading',img+'/loading.gif'));
-			$('#loading').after(compUI.h1('h-btn'));
-			$('#h-btn').append(compUI.span('btn1'))
-				.attr('display','inline');
-			$('#btn1').html('알고리즘')
-				.addClass('label label-default');
-			$('#h-btn').append(compUI.span('btn2'))
-			.attr('display','inline');
-			$('#btn2').html('회원 관리')
-			.addClass('label label-primary')
-			.css({'margin-left':'10px'});
-			$('#h-btn').append(compUI.span('btn3'))
-			.attr('display','inline');
-			$('#btn3').html('게시판 관리')
-			.addClass('label label-danger')
-			.css({'margin-left':'10px'});
-			$('#btn1').click(()=>{
-				$container.empty();
-				meta.navbar.init();
-				$container.html(algoUI.series());
+		$.getScript(temp,()=>{
+			compUI.div('content')
+				.css({'width':'100%','margin': '0 auto'})
+				.appendTo($container);
+			$content=$('#content');
+			compUI.image('loading',img+'/loading.gif')
+				.appendTo($content);
+			compUI.h1('h_btn')
+				.attr('display','inline')
+				.appendTo($content);
+			$hBtn=$('#h_btn');
+			compUI.span('algo_btn')
+					.html('알고리즘')
+					.addClass('label label-default')
+					.appendTo($hBtn)
+					.click(()=>{
+						$container.empty();
+						meta.navbar.init();
+						compUI.div('content')
+							.css({'width':'30%','margin': '0 auto'})
+							.appendTo($container);
+						$content=$('#content');
+						compUI.span('start_lbl')
+							.css({'width':'100px'})
+							.html('시 작')
+							.appendTo($content);
+						compUI.iTxt('start_val')
+							.appendTo($content);
+						compUI.br()
+							.appendTo($content);
+						compUI.span('end_lbl')
+							.css({'width':'100px'})
+							.html('끝')
+							.appendTo($content);
+						compUI.iTxt('end_val')
+							.appendTo($content);
+						compUI.h1('h_btn')
+							.attr('display','inline')
+							.appendTo($content);
+						$hBtn=$('#h_btn');
+						compUI.span('resBtn')
+								.html('결과보기')
+								.addClass('label label-warning')
+								.appendTo($hBtn)	
+						;
+						return $('#content');
+					});
+			compUI.span('member_btn')
+					.html('회원관리')
+					.addClass('label label-primary')
+					.css({'margin-left':'10px'})
+					.appendTo($hBtn)
+					.click(()=>{
+					});
+			compUI.span('bbsBtn')
+					.html('게시판관리')
+					.addClass('label label-danger')
+					.css({'margin-left':'10px'})
+					.appendTo($hBtn)
+					.click(()=>{
+						$.getJSON(ctx+'/list/articles',data=>{
+							 $content.html(bbsUI.search());
+							var tbl=bbsUI.tbl(json+'/bbs_colums.json');
+							var tr='';
+						   $.each(data.list,(i,j)=>{
+							   tr+= 	'<tr style="height: 25px;">'
+									+'<td>'+j.articleSeq+'</td>'
+									+'<td><a onclick="meta.board.detail('+j.articleSeq+')">'+j.title+'</a></td>'
+									+'<td>'+j.content+'</td>'
+									+'<td>'+j.id+'</td>'
+									+'<td>'+j.regdate+'</td>'
+									+'<td>'+j.hitcount+'</td>'
+									+'</tr>';
+						   });
+						   $content.append(tbl);
+						   $content.append(bbsUI.pagination());
+						   $('#tbody').html(tr);
+						   $('#total').text('총게시글 수:'+data.total.count);
+						   $('#writeBtn').click(e=>{
+							   meta.board.write();
+						   });
+						});
+					});
 			});
-			$('#btn2').click(()=>{
-				//$container.empty();
-				//meta.auth.init();	
-				
-			});
-			$('#btn3').click(()=>{
-				//$container.empty();
-				//meta.auth.init();	
-			});
-		});
 		};
 	return {init:init};
 })();
-
+meta.board=(()=>{
+	var $wrapper,ctx,img,js,css,temp;
+	var init=function(){
+		$wrapper=$('#wrapper');
+		img=$$('i');
+		js=$$('j');
+		ctx=$$('x');
+		temp=js+'/template.js';
+	};
+	var detail=x=>{
+		init();
+		alert('선택한 시퀀스'+x);
+		$.getJSON(ctx+'/get/articles/'+x,d=>{
+			$.getScript(temp,()=>{
+				var $container=$('#container');
+				$container.empty();
+				compUI.div('content')
+					.appendTo($container);
+				$content=$('#content');
+				$content.html(bbsUI.detail());
+				$('#legend').html('게시글 보기');
+				
+			$hBtn=$('#h_btn');
+				$('#confirmBtn').html('수정하기')
+				.click(e=>{
+					e.preventDefault();
+					update(x);
+				});
+				$('#cancelBtn')
+					.attr('data-toggle','modal')
+					.attr('data-target','#squarespaceModal')
+					.addClass('btn btn-primary ')
+					.html('삭제하기');
+				
+					$('#cancelBtn').click(e=>{
+						e.preventDefault();
+						deleteArticle(x+','+pass);
+				});
+				;
+			});
+		});
+		
+	};
+	var update = x=>{
+		alert('수정 클릭 x is '+x);
+		$.getJSON(ctx+'/get/articles/'+x,d=>{
+			$.getScript(temp,()=>{
+				var $container=$('#container');
+				$container.empty();
+				compUI.div('content')
+					.appendTo($container);
+				$content=$('#content');
+				$content.html(bbsUI.detail());
+				$('#legend').html('게시글 수정하기');
+				$('#confirmBtn').html('수정하기 ')
+				.click(e=>{
+					e.preventDefault();
+					
+				});
+				$('#cancelBtn').html('취소하기').attr('type','reset');
+			});
+		});
+	};
+	var deleteArticle=x=>{
+		alert('삭제 클릭 ID'+x);
+	};
+	var write = ()=>{
+		init();
+		$.getScript(temp,()=>{
+			var $container=$('#container');
+			$container.empty();
+			compUI.div('content')
+				.appendTo($container);
+			$content=$('#content');
+			$content.html(bbsUI.detail());
+		});
+	};
+	return {detail : detail,write : write};
+})();
 meta.auth=(function(){
 	var $wrapper,ctx,img,js,css,temp;
 	var init=function(){
@@ -111,9 +239,11 @@ meta.navbar=(function(){
 	var onCreate=function(){
 		$.getScript(temp,function(){
 			$('#navbar').html(introUI.navbar());
-			$('#container').append(compUI.div('content'));
-			$('#content').html(algoUI.series('등차수열'))
-			.css({'width':'40%','margin':'0 auto'});
+			compUI.div('content')
+				.appendTo($container);
+			$content=$('#content');
+			
+			/*.css({'width':'40%','margin':'0 auto'});*/
 			$('#start_txt').after(compUI.iTxt('start'));
 			$('#start').attr('placeholder','시작값');
 			$('#end_txt').after(compUI.iTxt('end'));
@@ -170,14 +300,12 @@ meta.navbar=(function(){
 				//app.controller.deleteTarget('hong','board','board_delete');
 			});
 			$('#arithBtn').on('click',function(){
-				alert('33');
 				$container.empty();
-				$container.append(algoUI.tbl());
-				
+				$container.html(algoUI.tbl());
 	            var $tblRight=$('#tblRight'),
 	              $tblLeft=$('#tblLeft');
 	            $tblLeft.html(algoUI.seriesMenu()); 
-	            $cnt=compUI.div('content');
+	       /*     $cnt=compUI.div('content');
 	    		$cnt.append(compUI.h1('등차수열'))
 	    			.append(compUI.span('start_txt'))
 	    			.append(compUI.br())
@@ -190,7 +318,20 @@ meta.navbar=(function(){
 	            		+'test</h1>'
 	            		+'</div>'
 	            		
-	            );
+	            );*/
+	            compUI.h1('arithmetic')
+	            	.html('등차수열')
+	            	.appendTo($tblRight);
+	            compUI.div('start_lbl')
+	            	.addClass('input-group-addon')
+	            	.attr('placeholder','양의 정수')
+	            	.html('BEGIN')
+	            	.appendTo($tblRight);
+	            compUI.span('start_lbl')
+	            	.html('LIMIT')
+	            	.appendTo($tblRight);
+	            
+	            
 				/*$('#start_txt').after(compUI.input('start','text'));
 				$('#start').attr('placeholder','시작값');
 				$('#end_txt').after(compUI.iTxt('end'));

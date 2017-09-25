@@ -3,5 +3,48 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gms.web.mapper.BoardMapper">
-  
+	<resultMap id="resultMap" type="com.gms.web.command.ResultMap">
+	    <id property="seq" column="seq"/>
+	    <result property="count" column="count"/>
+	    <result property="memberId" column="id"/>
+	    <result property="title" column="title"/>
+	    <result property="content" column="content"/>
+	    <result property="regdate" column="regdate"/>
+	    <result property="hitcount" column="hitcount"/>
+	    <result property="email" column="email"/>
+	    <result property="profile" column="profile"/>
+	    <result property="birthday" column="birthday"/>
+	    <result property="gender" column="gender"/>
+	</resultMap>
+	<resultMap id="article" type="com.gms.web.board.Article">
+	    <id property="articleSeq" column="article_seq"/>
+	    <result property="id" column="id"/>
+	    <result property="title" column="title"/>
+	    <result property="content" column="content"/>
+	    <result property="regdate" column="regdate"/>
+	    <result property="hitcount" column="hitcount"/>
+	</resultMap>
+  <insert id="insert" parameterType="com.gms.web.command.Command">
+   </insert>
+    <select id="selectList" 
+    	resultMap="article"
+    	parameterType="com.gms.web.command.Command">
+    		select * from board
+    </select>
+     <select id="count" 
+    	resultMap="resultMap"
+    	parameterType="com.gms.web.command.Command">
+    	SELECT COUNT(*) AS count FROM Board
+    </select>
+     <select id="selectOne" 
+    	resultMap="article"
+    	parameterType="com.gms.web.command.Command">
+    </select>
+    <update id="update"
+    	parameterType="com.gms.web.command.Command">
+    
+    </update>
+    <delete id="delete" 
+    	parameterType="com.gms.web.command.Command">
+    </delete>
 </mapper>

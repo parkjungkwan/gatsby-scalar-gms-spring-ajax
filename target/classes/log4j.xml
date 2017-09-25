@@ -9,16 +9,38 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	
+	<!-- dataSourceSpied START -->
+	<appender name="console-infolog" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %5p %m%n" />
+        </layout>   
+    </appender>
+    <!-- Application Loggers -->
+    <logger name="first" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="console"/>
+    </logger>
+     
+    <!-- Query Loggers -->
+    <logger name="jdbc.sqlonly" additivity="false">  
+        <level value="INFO"/>  
+        <appender-ref ref="console-infolog"/>  
+    </logger>
+     
+    <logger name="jdbc.resultsettable" additivity="false">  
+        <level value="INFO"/>  
+        <appender-ref ref="console"/>  
+    </logger>  
+    <!-- dataSourceSpied END-->
 	<!-- Application Loggers -->
-	<logger name="com.gms.web">
+	<logger name="com.hanbit.web">
 		<level value="info" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
-	</logger>
+	</logger>	
 	
 	<logger name="org.springframework.beans">
 		<level value="info" />
@@ -34,8 +56,9 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
+	
 	
 </log4j:configuration>

@@ -20,7 +20,7 @@
      <mvc:annotation-driven />
   
      <mvc:resources mapping="/resources/**" location="/resources/" />
-        <tx:annotation-driven/>
+       
    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
       <property name="dataSource" ref="dataSource"/>
    </bean> 
@@ -41,7 +41,15 @@
            <property name="username" value="${jdbc.username}"/>
            <property name="password" value="${jdbc.password}"/>
      </bean>
-     
+<!--      <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="SQL         :  " />
+			</bean>
+		</property>
+	</bean> -->
      
      <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
            <property name="dataSource" ref="dataSource"/>
@@ -66,4 +74,5 @@
                 </list>
            </property>
      </bean>
+    <!--  <tx:annotation-driven/> -->
 </beans> 

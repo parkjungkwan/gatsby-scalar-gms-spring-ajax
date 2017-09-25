@@ -4,14 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.gms.web.board.ArticleDTO;
+import com.gms.web.board.Article;
+import com.gms.web.command.Command;
+import com.gms.web.command.ResultMap;
 @Repository
 public interface BoardMapper {
-	public String insert(ArticleDTO bean);
-	public List<ArticleDTO> selectAll();
-	public List<ArticleDTO> selectById(String id);
-	public ArticleDTO selectBySeq(String seq);
-	public String count();
-	public String update(ArticleDTO bean);
-	public String delete(String seq);
+	public void insert(Command cmd);
+	public List<Article> selectList(Command cmd);
+	public Article selectOne(Command cmd);
+	public ResultMap count(Command cmd);
+	public void update(Command cmd);
+	public void delete(Command cmd);
 }

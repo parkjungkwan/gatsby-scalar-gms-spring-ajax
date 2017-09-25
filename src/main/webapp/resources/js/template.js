@@ -1,5 +1,184 @@
+var compUI={
+	br : ()=>{return $('<br/>')},	
+	div : x=>{return $('<div/>',{id:x});},
+	h1 : x=>{return $('<h1/>',{id:x});},
+	span : x=>{return $('<span/>',{id:x});},
+	iTxt : x=>{return $('<input/>',{id : x,type : 'text'});},
+	aBtn : x=>{return $('<a>',{href:'#',role:'button',id:x});},
+	iBtn : x=>{return $('<input/>',{id : x,type : 'button'});},
+	image : (x,y)=>{return $('<img/>',{id : x,src : y});}
+}
+var bbsUI={
+	search : ()=>{
+		var board=$('<div id="board"/>');
+		var html='<div style="width:90%;margin:20px auto;">'
+			+'<select id="searchOption" class="form-control" style="width:20%;float:left;margin-right:36px">'
+			+'<option value="searchByName" >작성자</option>'
+			+'<option value="searchByTitle">제목</option>'
+		    +'</select>'
+		    +'<div id="searchGroup" class="input-group" style="width:50%;float:left;margin-right:30px">'
+		    +'<span class="input-group-addon">검 색</span>'
+		    +'<input type="text" class="form-control"/>'
+		    +'</div>'
+		    +'<input class="btn btn-primary" style="width:100px" type="submit"  value="SEARCH"/>'
+		    +'</div>'
+		    +'<div style="margin:20px 0" >'
+					+'<br/>'
+					+'<h4 id="total" style="margin-left:70px;color:red;display:inline"> '
+						+'총게시글수 :'
+					+'</h4>'
+					+'<input id="writeBtn" class="btn btn-warning" style="width:100px;margin-left:600px"'
+						+' type="submit"  value="글쓰기"/>';	
+		board.append(html);
+		return board;
+	},
+	tbl : a=>{
+		var tbl='<table id="tbl"'
+			+' class="table table-hover" style="width:90%;margin:0 auto;"'
+			+' border=1 style="border-collapse: collapse; width: 100%;">'
+			+'		<thead><tr style="height: 25px;">';
+		$.getJSON(a,d=>{
+			$.each(d.a,(i,j)=>{
+				tbl+='<th style="width: '+j.width
+					+'; text-align: center;">'+j.txt+'</th>'
+			});
+		});
+		tbl+='</tr></thead><tbody id="tbody">';
+		tbl+='</tbody></table>'
+		return tbl;
+	},
+	pagination : ()=>{
+		return '<nav aria-label="Page navigation" style="width:400px;margin: 0 auto;">'
+		  +'<ul class="pagination">'
+			  +'<li>'
+		    	+'<a '
+		    		+'<span class="glyphicon glyphicon-step-backward" "aria-hidden="true"></span>'
+		    	+'</a>'
+			    +'</li>'
+			    +'<li>'
+		      +'<a aria-label="Previous">'
+		        +'<span aria-hidden="true">&laquo;</span>'
+		      +'</a>'
+		    +'</li>'
+		    +'<li ><a href="#" >1</a></li>'
+		    +'<li ><a href="#" >2</a></li>'
+		    +'<li ><a href="#" >3</a></li>'
+		    +'<li ><a href="#" >4</a></li>'
+		    +'<li ><a href="#" >5</a></li>'
+			+'<li>'
+	      	+'<a aria-label="Next">'
+	        	+'<span aria-hidden="true">&raquo;</span>'
+	      	+'</a>'
+	    +'</li>'
+    	+'<li>'	
+    		+'<a  >'
+    			+'<span class="glyphicon glyphicon-step-forward" "aria-hidden="true"></span>'
+    		+'</a>'
+    	+'</li>'
+		  +'</ul>'
+		+'</nav>' ;
+		
+	},
+	detail : ()=>{
+		return '<div class="page-header">'
+    +'<h1 style="display:inline;margin-left:50px">게시판 </h1>'
+    	+'<a style="font-size:large;">목록가기</a>'
++'</div>'
++'<div class="container">'
+    +'<div class="row">'
+        +'<div class="col-md-12">'
+            +'<div class="well well-sm">'
+                +'<form class="form-horizontal" method="post">'
+                    +'<fieldset>'
+                       +' <legend id="legend" class="text-center header">게시글쓰기</legend>'
+                        +'<div class="form-group">'
+                            +'<span class="col-md-1 col-md-offset-2 text-center">'
+                            +'	<i class="fa fa-user bigicon"></i></span>'
+                            +'<div class="col-md-12">'
+                            +'<input id="fname" name="title" type="text" placeholder="제 목" class="form-control">'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="form-group">'
+                           +'<span class="col-md-1 col-md-offset-2 text-center">'
+                           +' 	<i class="fa fa-user bigicon"></i></span>'
+                            +'<div class="col-md-12">'
+                            +'    <input id="lname" name="name" type="text" placeholder="글쓴이" class="form-control">'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="form-group">'
+                        +'    <span class="col-md-1 col-md-offset-2 text-center">'
+                        +'    	<i class="fa fa-pencil-square-o bigicon"></i></span>'
+                        +'<div class="col-md-12">'
+                        +'<textarea class="form-control" id="message" name="message" rows="10"></textarea>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="form-group">'
+                            +'<div class="col-md-12 text-center">'
+                             +'   <button id="confirmBtn" type="submit" style="width:200px" '
+                             +'   	class="btn btn-primary btn-lg">확 인</button>'
+                             +'   <button id="cancelBtn" type="reset" style="width:200px" '
+                             +'   	class="btn btn-danger btn-lg">취 소</button>'
+                            +'</div>'
+                        +'</div>'
+                    +'</fieldset>'
+                +'</form>'
+            +'</div>'
+        +'</div>'
+    +'</div>'
++'</div>' 
++'<div class="modal fade alert" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">'
++'<div class="modal-dialog">'
++'<div class="modal-content">'
++'<div class="modal-header">'
++'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>'
++'<h3 class="modal-title" id="lineModalLabel">정말 삭제하시겠습니까?</h3>'
++'</div>'
++'<div class="modal-body">'
++'<form>'
++'<div class="form-group">'
++'<label for="exampleInputPassword1">Password</label>'
++'<input type="password" class="form-control" id="user-email2" placeholder="Enter Password">'
++'</div>'
++'<button type="submit" style="width:200px" class="btn btn-primary center-block">확 인</button>'
++'</form>'
++'</div>'
++'</div>'
++'</div>'
++'</div>'
+	},
+	del : ()=>{
+		return '<div class="modal fade alert" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">'
+		+'<div class="modal-dialog">'
+		+'<div class="modal-content">'
+		+'<div class="modal-header">'
+		+'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>'
+		+'<h3 class="modal-title" id="lineModalLabel">Modal Login Window</h3>'
+		+'</div>'
+		+'<div class="modal-body">'
+		+'<form>'
+		+'<div class="form-group">'
+		+'<label for="exampleInputEmail1">Email address</label>'
+		+'<input type="email" class="form-control" id="user-email1" placeholder="Enter email">'
+		+'</div>'
+		+'<div class="form-group">'
+		+'<label for="exampleInputPassword1">Password</label>'
+		+'<input type="password" class="form-control" id="user-email2" placeholder="Enter Password">'
+		+'</div>'
+		+'<div class="checkbox">'
+		+'<label>'
+		+'<input type="checkbox"> Remember login'
+		+'</label>'
+		+'</div>'
+		+'<button type="submit" class="btn btn-primary center-block">Login</button>'
+		+'</form>'
+		+'</div>'
+		+'</div>'
+		+'</div>'
+		+'</div>';
+	}
+}
 var introUI={
-	
+		
 	login : i=>{
 		return '<div id="container">'
 		+'<div id="login_box">'
@@ -98,16 +277,7 @@ var introUI={
 		+'</nav>';
 	}
 };
-var compUI={
-	br : ()=>{return $('<br/>')},	
-	div : x=>{return $('<div/>',{id:x});},
-	h1 : x=>{return $('<h1/>',{id:x});},
-	span : x=>{return $('<span/>',{id:x});},
-	iTxt : x=>{return $('<input/>',{id : x,type : 'text'});},
-	aBtn : s=>{return $('<a>',{href:'#',role:'button',id:x});},
-	iBtn : x=>{return $('<input/>',{id : x,type : 'button'});},
-	image : (x,y)=>{return $('<img/>',{id : x,src : y});}
-}
+
 var algoUI={
 	tbl : x=>{
 		return '<table id="table" style="width:800px;height:300px;border-collapse: collapse;border: 1px solid black;margin:0 auto">'
@@ -124,16 +294,7 @@ var algoUI={
 		+	'<li id="factorial" class="list-group-item"><a href="#">팩토리얼수열 합</a></li>'
 		+	'<li id="fibonacci" class="list-group-item"><a href="#">피보나치수열 합</a></li>'
 		+'</ul>'},
-	series : x=>{
-		var $cnt=compUI.div('content');
-		$cnt.append(compUI.h1(x))
-			.append(compUI.span('start_txt'))
-			.append(compUI.br())
-			.append(compUI.span('end_txt'))
-			.append(compUI.div('result'))
-		;
-		return $('#content');
-	}	,
+	
 	sort : x=>{
 		return 
 		'<div id="content">'
